@@ -10,6 +10,8 @@
 </head>
 
 <body>
+    <div class="cursor"></div>
+
 
     <nav class="ust-menu">
         <a href="index.html">Ana Sayfa</a>
@@ -19,11 +21,11 @@
         <a href="index.html#iletisim">İletişim</a>
     </nav>
 
-    <section class="sayfa-parcasi" style="margin-top: 80px;">
+<section class="sayfa-parcasi fade-in">
         <h2 class="baslik">Geliştirdiğim <span class="renkli-yazi">Projeler</span></h2>
         <div class="proje-listesi">
 
-                    <div class="proje-ogesi">
+                    <div class="proje-ogesi fade-in">
                         <div class="proje-fotografi">
                             <div class="web-preview">
                                 <img src="images/colorvibe2.png" alt="ColorVibe Web">
@@ -44,10 +46,7 @@
                         </div>
                     </div>
 
- 
-
-
-        <div class="proje-ogesi">
+       <div class="proje-ogesi fade-in">
             <div class="proje-fotografi">
                 <div class="phone-mockup">
                     <img src="images/v1.png" alt="ColorVibe Mobile">
@@ -66,11 +65,7 @@
             </div>
         </div>
 
-
-
-
-
-        <div class="proje-ogesi">
+         <div class="proje-ogesi fade-in">
             <div class="proje-fotografi">
                 <div class="phone-mockup">
                     <img src="images/yapilacaklar.png" alt="To Do List">
@@ -91,7 +86,7 @@
 
 
 
-            <div class="proje-ogesi">
+            <div class="proje-ogesi fade-in">
                 <div class="proje-fotografi"></div>
                 <div class="proje-icerik">
                     <h3>Veri Analizi Projesi</h3>
@@ -110,6 +105,64 @@
         </div>
     </section>
 
-</body>
+<script>
 
+    const cursor = document.querySelector('.cursor');
+    document.addEventListener('mousemove', (e) => {
+        if (cursor) cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+
+            });
+
+        }, {
+            threshold: 0.1,
+            rootMargin: "0px 0px -100px 0px"
+        });
+
+    function initScrollAnimations() {
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+    }
+
+    window.addEventListener('load', initScrollAnimations);
+    const iconBoxes = document.querySelectorAll('.ikon-kutusu');
+
+        const iconObserver = new IntersectionObserver((entries) => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    iconBoxes.forEach((box, index) => {
+
+                        setTimeout(() => {
+                            box.classList.add('active');
+                        }, index * 120);
+
+                    });
+
+                }
+
+            });
+
+        }, {
+            threshold: 0.2
+        });
+
+        document.querySelectorAll('.ikon-listesi').forEach(section => {
+            iconObserver.observe(section);
+        });
+</script>
+</body>
 </html>

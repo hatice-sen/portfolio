@@ -11,6 +11,8 @@
 </head>
 
 <body>
+    <div class="cursor"></div>
+
 
     <nav class="ust-menu">
         <a class="aktif-sayfa" href="index.html">Ana Sayfa</a>
@@ -20,7 +22,7 @@
         <a href="index.html#iletisim">İletişim</a>
     </nav>
 
-    <section id="Anasayfa" class="giris-bolumu">
+    <section id="Anasayfa" class="giris-bolumu fade-in">
         <div class="giris-icerik">
             <div class="sol-taraf">
                 <span class="etiket">Bilgisayar Programcılığı</span>
@@ -55,7 +57,7 @@
         </div>
     </section>
 
-    <section id="hakkimda" class="sayfa-parcasi">
+    <section id="hakkimda" class="sayfa-parcasi fade-in">
         <div class="kucuk-kapsayici">
             <h2 class="baslik">Hakkımda</h2>
             <div class="bilgi-kutusu">
@@ -71,7 +73,7 @@
         </div>
     </section>
 
-    <section id="yetenekler" class="sayfa-parcasi">
+    <section id="yetenekler" class="sayfa-parcasi fade-in">
         <h2 class="baslik">Kullandığım Araçlar ve Diller</h2>
         <div class="ikon-listesi">
             <div class="ikon-kutusu"><img src="images/JS" alt="JS">
@@ -127,8 +129,9 @@
             </div>
         </div>
     </section>
+   
 
-    <section id="iletisim" class="sayfa-parcasi">
+    <section id="iletisim" class="sayfa-parcasi fade-in">
         <div class="kucuk-kapsayici orta-hizala">
             <h2 class="baslik">İletişim</h2>
             <p>Projelerim ve gelişim sürecim hakkında daha fazla bilgi almak isterseniz:</p>
@@ -146,7 +149,63 @@
             </div>
         </div>
     </section>
+<script>
+    const cursor = document.querySelector('.cursor');
+    document.addEventListener('mousemove', (e) => {
+        if (cursor) cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    });
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    });
 
+    function initScrollAnimations() {
+        document.querySelectorAll('.fade-in').forEach(el => {
+         
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 50) {
+                el.classList.add('active');
+            }
+            observer.observe(el); 
+        });
+    }
+
+    window.addEventListener('load', initScrollAnimations);
+    const iconBoxes = document.querySelectorAll('.ikon-kutusu');
+
+        const iconObserver = new IntersectionObserver((entries) => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+
+                    iconBoxes.forEach((box, index) => {
+
+                        setTimeout(() => {
+                            box.classList.add('active');
+                        }, index * 120);
+
+                    });
+
+                }
+
+            });
+
+        }, {
+            threshold: 0.2
+        });
+
+        document.querySelectorAll('.ikon-listesi').forEach(section => {
+            iconObserver.observe(section);
+        });
+</script>
 </body>
+
 
 </html>
